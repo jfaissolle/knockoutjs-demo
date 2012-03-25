@@ -13,35 +13,42 @@ accounting.settings = {
     }
 }
 
+# Extend observable to be have a formatted value (for currency formatting)
+ko.extenders.formattable = (target, options) ->
+    target.formatted = ko.observable()
+    format = (newValue) ->
+        target.formatted(accounting.formatMoney(newValue))
+
+    format(target)
+    target.subscribe(format)
+
+    target
+
+
+
 class InvoiceItemModel
 
     constructor: ->
         @description = ko.observable('')
         @price = ko.observable(0)
         @quantity = ko.observable(1)
-        @amount = ko.computed(( -> @price() * @quantity()), this)
-        @amountFormatted = ko.computed(( ->
-            accounting.formatMoney(@amount())
-        ), this)
-
+        @amount = ko.computed(( ->
+            @price() * @quantity()
+        ), this).extend({ formattable: null })
 
 class InvoiceModel
 
     constructor: ->
         @invoiceNumber = ko.observable('2012-03-24-002')
         @items = ko.observableArray([new InvoiceItemModel])
+
         @subtotal = ko.computed(( ->
             @items().reduce(((t, item) -> t + item.amount()), 0)
-        ), this)
-        @subtotalFormatted = ko.computed(( ->
-            accounting.formatMoney(@subtotal())
-        ), this)
+        ), this).extend({ formattable: null })
+
         @tax = ko.computed(( ->
             @subtotal() * 1.196
-        ), this)
-        @taxFormatted = ko.computed(( ->
-            accounting.formatMoney(@tax())
-        ), this)
+        ), this).extend({ formattable: null })
 
     addItem: ->
         @items.push(new InvoiceItemModel())
