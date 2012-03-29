@@ -37,7 +37,7 @@ class InvoiceItemModel
         ), this).extend({ formattable: null })
 
 class InvoiceModel
-
+    
     constructor: ->
         @invoiceNumber = ko.observable('2012-03-24-002')
         @items = ko.observableArray([new InvoiceItemModel])
@@ -50,16 +50,13 @@ class InvoiceModel
             @subtotal() * 1.196
         ), this).extend({ formattable: null })
 
-    addItem: ->
-        @items.push(new InvoiceItemModel())
+    addItem: => @items.push(new InvoiceItemModel())
+
+    removeItem: (item) => @items.remove(item)
 
 invoice = new InvoiceModel()
 
 ko.applyBindings(invoice)
-
-$(".delete").live("click", () ->
-    invoice.items.remove(ko.dataFor(this))
-)
 
 
 

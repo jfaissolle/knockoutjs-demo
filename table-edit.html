@@ -51,7 +51,7 @@
 
     <script id="itemFormTmpl" type="text/html">
         <tr>
-            <td><a href="#" class="delete">Delete</a></td>
+            <td><a href="#" data-bind="click: $parent.removeItem">Delete</a></td>
             <td><input type="text" data-bind="value: description" class="span3" /></td>
             <td><input type="text" data-bind="value: price" class="span1 val" /></td>
             <td><input type="text" data-bind="value: quantity" class="span1 val" /></td>
