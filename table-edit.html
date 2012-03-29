@@ -25,7 +25,7 @@
                     <th>Price</th>
                 </tr>
             </thead>
-            <tbody data-bind="template: { name: 'itemFormTmpl', foreach: items }"s>
+            <tbody data-bind="template: { name: 'itemFormTmpl', foreach: items, afterAdd: popup, beforeRemove: popout }"s>
 
             </tbody>
             <tfoot>

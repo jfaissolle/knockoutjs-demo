@@ -53,6 +53,14 @@ class InvoiceModel
     addItem: => @items.push(new InvoiceItemModel())
 
     removeItem: (item) => @items.remove(item)
+    
+    popup: (elem) ->
+        if (elem.nodeType == Node.ELEMENT_NODE) 
+            $(elem).hide().fadeIn()
+ 
+    popout: (elem) ->
+        if (elem.nodeType == Node.ELEMENT_NODE) 
+            $(elem).fadeOut( -> $(elem).remove())
 
 invoice = new InvoiceModel()
 
