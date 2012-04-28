@@ -60,11 +60,11 @@
     <script>
         function Model() {
             var self = this
-            this.myBooleanValue = ko.observable(false)
-            this.availableCountries = ko.observableArray(['France', 'Spain', 'Venezuela', 'Brazil'])
-            this.chosenCountries = ko.observableArray([])
-            this.nbClicks = ko.observable(0)
-            this.increaseClicks = function() { self.nbClicks(self.nbClicks() + 1) }
+            self.myBooleanValue = ko.observable(false)
+            self.availableCountries = ko.observableArray(['France', 'Spain', 'Venezuela', 'Brazil'])
+            self.chosenCountries = ko.observableArray([])
+            self.nbClicks = ko.observable(0)
+            self.increaseClicks = function() { self.nbClicks(self.nbClicks() + 1) }
         }
         ko.applyBindings(new Model())
     </script>
