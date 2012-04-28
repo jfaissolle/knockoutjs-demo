@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../public/style.css">
+</head>
+<body>
+
+
+    <div class="container">
+        <h1>Dynamic Template</h1>
+        <hr>
+        <div data-bind="foreach: users">
+            <div class="row">
+                <p>
+                    <strong data-bind="text: name"></strong>
+                    <span data-bind="text: firstName"></span><br>
+                </p>
+                <p data-bind="template: { name: (editing() ? 'emailFormTmpl' : 'emailTmpl')}"></p>
+            </div>
+        </div>
+    </div>
+        
+    <script id="emailTmpl" type="text/html">
+        <span data-bind="text: email"></span>
+        <a href='#' data-bind="click: edit">Edit</a>
+        <hr>
+    </script>
+
+    <script id="emailFormTmpl" type="text/html">
+        <input type="text" data-bind="value: email" />
+        <a href='#' data-bind="click: endEdit">Ok</a>
+        <hr>
+    </script>
+
+    <script src="../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../public/knockout-min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+
+        function User() {
+            var self = this
+            self.name      = ko.observable('')
+            self.firstName = ko.observable('')
+            self.email     = ko.observable('')
+
+            self.editing = ko.observable(false)
+            self.edit = function() { self.editing(true) }
+            self.endEdit = function() { self.editing(false) }
+        }
+
+        function UserList(lizt) {
+            this.users = ko.observableArray([])
+            lizt.forEach(function(it) {
+                var user = new User()
+                user.name(it.name)
+                user.firstName(it.firstName)
+                user.email(it.email)
+                this.users.push(user) 
+            }, this)
+        }
+
+        var list = new UserList([
+            { name: 'Norris', firstName: 'Chuck', email: 'chuck.norris@test.com'},
+            { name: 'Seagall', firstName: 'Steven', email: 'steven.seagall@test.com'}
+        ])
+
+        ko.applyBindings(list)
+    </script>
+
+</body>
+</html>
+
+
