@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+    <div class="container">
+        <h1>Data Binding</h1>
+        <hr>
+        <h2>Invoice n° <span data-bind="text: invoiceNumber"></span></h2>
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.0.0/knockout-min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        var model = {
+            invoiceNumber: '2012-05-010'
+        }
+        ko.applyBindings(model)
+    </script>
+
+</body>
+</html>

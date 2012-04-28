@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+    <div class="container">
+        <h1>Not Only Text And Values</h1>
+        <hr>
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: myBooleanValue"/>checked binding
+                </td>
+                <td>
+                    text binding - My value is <strong data-bind="text: myBooleanValue"></strong><br>
+                    visible binding <strong data-bind="visible: myBooleanValue">Hello !</strong><br>
+                    style binding
+                    <strong data-bind="style: { color: (myBooleanValue() ? 'red' : 'green') }">My color is changin...</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    class binding - <span class="alert" data-bind="css: { 'alert-error': myBooleanValue() } ">Look, my class is changing !</span>    
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    
+                    <select data-bind="options: availableCountries(), selectedOptions: chosenCountries(), enable: myBooleanValue()"
+                            size="5" multiple="true">
+                    </select>
+                    options / selectedOptions / enable bindings
+                </td>
+                <td>
+                    text binding - selected : <strong data-bind="text: chosenCountries"></strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-large" data-bind="click: increaseClicks">Click</button>
+                    click binding
+                </td>
+                <td>
+                    text binding - Number of clicks: <strong data-bind="text: nbClicks"></strong>
+                </td>
+            </tr>
+    </div>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.0.0/knockout-min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        function Model() {
+            var self = this
+            this.myBooleanValue = ko.observable(false)
+            this.availableCountries = ko.observableArray(['France', 'Spain', 'Venezuela', 'Brazil'])
+            this.chosenCountries = ko.observableArray([])
+            this.nbClicks = ko.observable(0)
+            this.increaseClicks = function() { self.nbClicks(self.nbClicks() + 1) }
+        }
+        ko.applyBindings(new Model())
+    </script>
+
+</body>
+</html>
