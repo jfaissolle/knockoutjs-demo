@@ -39,25 +39,21 @@
 
     <script>
 
-        function User() {
+        function User(name, firstName, email) {
             var self = this
-            self.name      = ko.observable('')
-            self.firstName = ko.observable('')
-            self.email     = ko.observable('')
+            self.name      = ko.observable(name)
+            self.firstName = ko.observable(firstName)
+            self.email     = ko.observable(email)
 
             self.editing = ko.observable(false)
             self.edit = function() { self.editing(true) }
             self.endEdit = function() { self.editing(false) }
         }
 
-        function UserList(lizt) {
+        function UserList(list) {
             this.users = ko.observableArray([])
-            lizt.forEach(function(it) {
-                var user = new User()
-                user.name(it.name)
-                user.firstName(it.firstName)
-                user.email(it.email)
-                this.users.push(user) 
+            list.forEach(function(it) {
+                this.users.push(new User(it.name, it.firstName, it.email))
             }, this)
         }
 
