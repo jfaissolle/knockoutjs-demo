@@ -37,6 +37,11 @@
             <i class="icon-plus icon-white"></i>
             Add Item
         </button>
+        <hr>
+        <p>
+            <input type="checkbox" data-bind="checked: showModel"/>Show Model
+        </p>
+        <div class="well" data-bind="text: ko.toJSON(invoice), visible: showModel"></div>
     </div>
     
     <script id="itemFormTmpl" type="text/html">
@@ -76,9 +81,12 @@
 
             self.addItem        = function() { self.items.push(new InvoiceItem()) }
             self.removeItem     = function(item) { self.items.remove(item) }
+
+            self.showModel = ko.observable(false)
         }
 
-        ko.applyBindings(new Invoice())
+        var invoice = new Invoice()
+        ko.applyBindings(invoice)
     </script>
 
 </body>
