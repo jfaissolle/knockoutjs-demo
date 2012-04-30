@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../public/style.css">
+</head>
+<body>
+
+
+    <div class="container">
+        <h1>Custom Binding</h1>
+        <hr>
+
+        <div class="table" data-bind="sortableGrid: grid">
+
+        </div>
+
+        <a href="step1.html">Step 1</a> | <a href="../index.html">Index</a>
+    </div>
+        
+    <script src="../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../public/knockout-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="sortable.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        (function() {
+
+            var userList = [
+                { name: 'Seagall'  , firstName: 'Steven' },
+                { name: 'Norris'   , firstName: 'Chuck' },
+                { name: 'Van Damme', firstName: 'Jean-Claude' }
+            ]
+
+            var ViewModel = function(users) {
+                this.users = ko.observableArray(users)
+
+                this.grid  = new ko.sortableGrid.ViewModel({ 
+                    columns: [ {name: 'Name', field: 'name'}, {name: 'First Name', field: 'firstName'} ],
+                    data: this.users
+                })
+            }
+
+            ko.applyBindings(new ViewModel(userList))
+        })();
+    </script>
+
+</body>
+</html>
+
