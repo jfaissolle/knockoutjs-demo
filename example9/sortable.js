@@ -76,18 +76,11 @@
 
     ko.bindingHandlers.sortableGrid = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-            var viewModel = valueAccessor(), allBindings = allBindingsAccessor();
 
-            // Empty the element
             while(element.firstChild)
                 ko.removeNode(element.firstChild);
 
-            // Allow the default templates to be overridden
-            var gridTemplateName = "sortable_grid"
-
-            // Render the grid
-            var gridContainer = element
-            ko.renderTemplate(gridTemplateName, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
+            ko.renderTemplate("sortable_grid", valueAccessor(), { templateEngine: templateEngine }, element, "replaceNode");
         }
     }
 
