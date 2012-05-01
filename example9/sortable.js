@@ -11,8 +11,8 @@
             <thead>\
                 <tr data-bind=\"foreach: columns\">\
                     <th>\
-                        <a href=\"#\" data-bind=\"text: name, click: $parent.changeSort\"></a> \
-                        <i data-bind=\"attr: { class: $data === $parent.sort().by() ? ('icon-arrow-'+$parent.sort().order()) : '' }\"></i>\
+                        <a href=\"#\" data-bind=\"text: name, click: $parent.sorter().changeSort\"></a> \
+                        <i data-bind=\"attr: { class: $data === $parent.sorter().by() ? ('icon-arrow-'+$parent.sorter().order()) : '' }\"></i>\
                     </th>\
                 </tr>\
             </thead>\
@@ -25,27 +25,26 @@
     )
 
 
-    var Sort = function(column) {
+    var Sorter = function(column) {
         var self = this
-        this.order = ko.observable('up')
-        this.by    = ko.observable(column)
+        self.order = ko.observable('up')
+        self.by    = ko.observable(column)
 
-        this.compare = function() {
-            var field = self.by().field
-            if (self.order() == 'up') {
-                return function(a,b) { return a[field] < b[field] ? -1 : 1 }
+        self.sort = function(collection) {
+            var sorted = collection.slice(0)
+            var order  = self.order() == 'up' ? 1 : -1
+            var field  = self.by().field
+            var fn = function(a,b) { return a[field] < b[field] ? -order : order }
+            return sorted.sort(fn)
+        }
+
+        self.changeSort = function(column) {
+            if (self.by() === column) {
+                self.order(self.order() == 'up' ? 'down' : 'up')
             } else {
-                return function(a,b) { return a[field] < b[field] ? 1 : -1 }
+                self.by(column)
+                self.order('up')
             }
-        }
-
-        this.changeColumn = function (column) {
-            this.by(column)
-            this.order('up')
-        }
-
-        this.changeOrder = function() {
-            this.order(this.order() == 'up' ? 'down' : 'up')
         }
      }
 
@@ -56,20 +55,10 @@
             var self = this
             self.data      = config.data
             self.columns   = config.columns
-            self.sort      = ko.observable(new Sort(self.columns[0]))
+            self.sorter    = ko.observable(new Sorter(self.columns[0]))
 
-            self.changeSort = function(column) {
-                if (self.sort().by() === column) {
-                    self.sort().changeOrder()
-                } else {
-                    self.sort().changeColumn(column)
-                }
-            }
- 
             self.sortedData = ko.computed(function() {
-                var sorted = self.data().slice(0)
-                sorted.sort(self.sort().compare())
-                return sorted
+                return self.sorter().sort(self.data)
             })
         }
     }
@@ -77,8 +66,9 @@
     ko.bindingHandlers.sortableGrid = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 
-            while(element.firstChild)
-                ko.removeNode(element.firstChild);
+            while(element.firstChild) {
+                ko.removeNode(element.firstChild)
+            }
 
             ko.renderTemplate("sortable_grid", valueAccessor(), { templateEngine: templateEngine }, element, "replaceNode");
         }
