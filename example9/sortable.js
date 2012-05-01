@@ -75,7 +75,7 @@
     }
 
     ko.bindingHandlers.sortableGrid = {
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var viewModel = valueAccessor(), allBindings = allBindingsAccessor();
 
             // Empty the element
